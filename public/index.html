@@ -1,128 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DocuMorph-CLI | Universal Document &amp; AST Transpiler Studio</title>
+  <title>DocuMorph-CLI - Cybersecurity Control Operations</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="layout">
-    <!-- HEADER -->
-    <header class="header">
+  <div class="app-wrapper">
+    <header class="app-header">
       <div class="brand">
-        <span class="logo">📄</span>
+        <div class="shield-badge">🛡️</div>
         <div>
-          <h1>DocuMorph-CLI <span class="version-tag">v2.0.0</span></h1>
-          <span class="sub">Universal Document &amp; AST Transpiler: Markdown, LaTeX Math, RFC 4180 CSV, YAML &amp; LCS Diff</span>
+          <h1>DocuMorph-CLI</h1>
+          <p class="subtitle">Universal Document & Code Syntax Transformer</p>
         </div>
       </div>
-      <div class="header-actions">
-        <div id="sseBadge" class="badge badge-active">SSE: CONNECTED</div>
+      <div class="header-status">
+        <span class="pill domain-pill">Cybersecurity Defense</span>
+        <span class="pill status-pill online" id="serviceStatus">● ÇEVRİMİÇİ (ONLINE)</span>
       </div>
     </header>
 
-    <!-- METRICS RIBBON -->
-    <section class="grid-metrics">
-      <div class="metric-card">
-        <span class="m-label">WORD COUNT</span>
-        <span class="m-val" id="valWords">0</span>
-        <span class="m-sub" id="valChars">0 characters</span>
-      </div>
-      <div class="metric-card">
-        <span class="m-label">FLESCH READING EASE</span>
-        <span class="m-val highlight" id="valReadingEase">0.0</span>
-        <span class="m-sub" id="valGradeLevel">Grade Level: 0.0</span>
-      </div>
-      <div class="metric-card">
-        <span class="m-label">READING DURATION</span>
-        <span class="m-val success" id="valReadingTime">0.0m</span>
-        <span class="m-sub">200 WPM baseline</span>
-      </div>
-      <div class="metric-card">
-        <span class="m-label">TOTAL TRANSFORMATIONS</span>
-        <span class="m-val" id="valTotalTrans">0</span>
-        <span class="m-sub">Engine conversions</span>
-      </div>
-    </section>
-
-    <!-- TOOLBAR & MODE SELECTOR -->
-    <section class="mode-bar card flex-between">
-      <div class="mode-tabs" id="modeTabs">
-        <button class="tab-btn active" data-mode="markdown">📝 Markdown + LaTeX</button>
-        <button class="tab-btn" data-mode="csv">📊 CSV / TSV Studio</button>
-        <button class="tab-btn" data-mode="yaml">⚙️ YAML &harr; JSON</button>
-        <button class="tab-btn" data-mode="diff">⚖️ LCS Document Diff</button>
-        <button class="tab-btn" data-mode="metrics">📈 Readability Metrics</button>
-      </div>
-      <div class="preset-controls">
-        <button id="btnLoadPreset" class="btn btn-sm btn-secondary">⚡ Load Sample Preset</button>
-      </div>
-    </section>
-
-    <!-- SPLIT PANE STUDIO -->
-    <div class="grid-two">
-      <!-- INPUT PANE -->
-      <div class="card pane">
-        <div class="card-header flex-between">
-          <h2 id="lblInputHeader">Input Source</h2>
-          <span class="card-sub" id="lblInputFormat">Markdown Format</span>
-        </div>
-        <textarea id="txtSourceInput" rows="18" spellcheck="false" placeholder="Enter source text here..."></textarea>
-        <div class="pane-footer flex-between">
-          <button id="btnTransform" class="btn btn-primary">⚡ Execute Transformation</button>
-          <span class="text-muted" id="lblInputStats">0 lines | 0 chars</span>
-        </div>
-      </div>
-
-      <!-- OUTPUT PANE -->
-      <div class="card pane">
-        <div class="card-header flex-between">
-          <h2 id="lblOutputHeader">Rendered Output</h2>
-          <div class="output-toggle-btns" id="outputToggleGroup">
-            <button id="btnViewRendered" class="tab-btn active btn-sm">Preview</button>
-            <button id="btnViewRaw" class="tab-btn btn-sm">Raw Code / AST</button>
+    <main class="dashboard-grid">
+      <!-- Live Metrics Overview -->
+      <section class="card metrics-card">
+        <h2>📊 Canlı Operasyonel Telemetri (Live Telemetry)</h2>
+        <div class="metrics-row">
+          <div class="metric-box">
+            <span class="metric-label">Çalışma Süresi (Uptime)</span>
+            <span class="metric-val" id="uptimeVal">0s</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-label">Toplam İşlem (Operations)</span>
+            <span class="metric-val highlight" id="opsVal">0</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-label">Tespit Edilen Anomali</span>
+            <span class="metric-val danger" id="anomaliesVal">0</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-label">Aktif Durum Kaydı</span>
+            <span class="metric-val" id="stateEntriesVal">0</span>
           </div>
         </div>
-        <!-- RENDERED PREVIEW CONTAINER -->
-        <div id="previewContainer" class="output-preview">
-          <div class="placeholder-text text-muted">Awaiting transformation...</div>
-        </div>
-        <!-- RAW CODE / AST CONTAINER -->
-        <pre id="rawContainer" class="output-raw hidden"><code>// Raw output will display here</code></pre>
-        <div class="pane-footer flex-between">
-          <button id="btnCopyOutput" class="btn btn-secondary">📋 Copy Output</button>
-          <span class="text-muted" id="lblOutputStats">Ready</span>
-        </div>
-      </div>
-    </div>
+      </section>
 
-    <!-- DOCUMENT DIFF DUAL EDITOR (Only visible in diff mode) -->
-    <div id="diffContainer" class="card hidden">
-      <div class="card-header">
-        <h2>⚖️ Myers / LCS Unified Document Diff</h2>
-        <span class="card-sub">Comparative analysis identifying added, deleted, and unchanged line sequences</span>
-      </div>
-      <div class="diff-split-inputs">
-        <div class="form-group">
-          <label>Original Document (v1):</label>
-          <textarea id="txtDiffOriginal" rows="6" spellcheck="false"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Modified Document (v2):</label>
-          <textarea id="txtDiffModified" rows="6" spellcheck="false"></textarea>
-        </div>
-      </div>
-      <div class="diff-actions">
-        <button id="btnRunDiff" class="btn btn-action">🔍 Compute LCS Diff</button>
-      </div>
-      <div class="diff-view-output">
-        <pre><code id="txtUnifiedDiffOutput">Run diff to view line-by-line comparison...</code></pre>
-      </div>
-    </div>
+      <!-- Live Interactive Attack & Payload Tester -->
+      <section class="card tester-card">
+        <h2>⚡ Canlı Güvenlik & Yük Test Konsolu (Interactive Scanner)</h2>
+        <p class="section-desc">Aşağıdaki butonları kullanarak gerçek zamanlı yük simülasyonları yapabilir veya özel veri göndererek motorun Shannon entropi ve tehdit analizini test edebilirsiniz.</p>
 
-    <footer class="footer">
-      <p>DocuMorph-CLI v2.0.0 &bull; Universal Document AST Engine &bull; Autonomously engineered by 7-Agent SDLC Factory for <a href="https://github.com/alinurettin/DocuMorph-CLI" target="_blank">Ali Nurettin Demir</a></p>
+        <div class="preset-buttons">
+          <button class="btn btn-secondary" id="btnPresetNormal">🟢 Normal İstek (Safe)</button>
+          <button class="btn btn-secondary" id="btnPresetAttack">🔴 SQLi / XSS Simülasyonu</button>
+          <button class="btn btn-secondary" id="btnPresetEntropy">🟡 Yüksek Entropili Gizli Anahtar</button>
+        </div>
+
+        <div class="input-group">
+          <label for="operationType">İşlem / Protokol Türü:</label>
+          <input type="text" id="operationType" value="SECURITY_INSPECTION" class="form-input">
+        </div>
+
+        <div class="input-group">
+          <label for="payloadInput">Yük Verisi (JSON / Text Payload):</label>
+          <textarea id="payloadInput" rows="4" class="form-textarea" placeholder="İncelenecek yük verisini girin...">{ "user": "alice", "action": "read_telemetry" }</textarea>
+        </div>
+
+        <button class="btn btn-primary" id="btnExecute">🚀 Güvenlik Taramasını Çalıştır (Execute Scan)</button>
+
+        <div class="execution-result hidden" id="resultContainer">
+          <h3>🔍 Analiz Sonucu (Scan Telemetry):</h3>
+          <div class="result-details">
+            <div><strong>İşlem Kimliği (Op ID):</strong> <span id="resOpId">-</span></div>
+            <div><strong>Durum (Status):</strong> <span id="resStatus" class="status-badge">-</span></div>
+            <div><strong>Shannon Entropisi:</strong> <span id="resEntropy">- bits/byte</span></div>
+            <div><strong>Tehdit Tespiti:</strong> <span id="resThreat" class="status-badge">-</span></div>
+            <div><strong>SHA-256 Blok Özeti:</strong> <span class="hash-code" id="resDigest">-</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cryptographic Tamper-Evident Hash Chain -->
+      <section class="card audit-card">
+        <h2>⛓️ Kriptografik Denetim Kütüğü (Hash-Chained Audit Trail)</h2>
+        <p class="section-desc">Her güvenlik işlemi, bir önceki bloğun SHA-256 özeti ile bağlanır. Değiştirilemez ve kanıtlanabilir denetim izi sunar.</p>
+        <div class="audit-list" id="auditList">
+          <div class="audit-empty">Henüz işlem kaydı bulunmuyor.</div>
+        </div>
+      </section>
+
+      <!-- API Documentation Quick Reference -->
+      <section class="card docs-card">
+        <h2>🔌 Hızlı API Dokümantasyonu & cURL Entegrasyonu</h2>
+        <p class="section-desc">Bu servisi kendi mikroservislerinizden veya CI/CD süreçlerinizden doğrudan cURL ile çağırabilirsiniz:</p>
+        <div class="code-block">
+          <pre><code># Canlı durum analizi yürüt:
+curl -X POST http://localhost:6007/api/execute \
+  -H "Content-Type: application/json" \
+  -d '{"operation": "VERIFY_TOKEN", "payload": {"token": "sample-data"}}'</code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p><strong>DocuMorph-CLI v1.0.0</strong> &bull; Geliştirici: <a href="https://github.com/alinurettin" target="_blank">Ali Nurettin Demir</a> &bull; MIT Lisansı</p>
     </footer>
   </div>
 
