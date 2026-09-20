@@ -1,4 +1,4 @@
-﻿# ğŸ“Š Product Requirements Document (PRD): DocuMorph-CLI
+﻿# 📊 Product Requirements Document (PRD): DocuMorph-CLI
 - **Project:** DocuMorph-CLI
 - **Author:** Expert Business Analyst
 - **Status:** APPROVED & COMPLETE
