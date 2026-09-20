@@ -1,36 +1,131 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DocuMorph-CLI | Operational Studio</title>
+  <title>DocuMorph-CLI | Universal Document &amp; AST Transpiler Studio</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="header">
-    <div class="brand">
-      <span class="logo">⚡</span>
-      <div>
-        <h1>DocuMorph-CLI</h1>
-        <span class="sub">Universal Document & Code Syntax Transformer</span>
+  <div class="layout">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="brand">
+        <span class="logo">📄</span>
+        <div>
+          <h1>DocuMorph-CLI <span class="version-tag">v2.0.0</span></h1>
+          <span class="sub">Universal Document &amp; AST Transpiler: Markdown, LaTeX Math, RFC 4180 CSV, YAML &amp; LCS Diff</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div id="sseBadge" class="badge badge-active">SSE: CONNECTED</div>
+      </div>
+    </header>
+
+    <!-- METRICS RIBBON -->
+    <section class="grid-metrics">
+      <div class="metric-card">
+        <span class="m-label">WORD COUNT</span>
+        <span class="m-val" id="valWords">0</span>
+        <span class="m-sub" id="valChars">0 characters</span>
+      </div>
+      <div class="metric-card">
+        <span class="m-label">FLESCH READING EASE</span>
+        <span class="m-val highlight" id="valReadingEase">0.0</span>
+        <span class="m-sub" id="valGradeLevel">Grade Level: 0.0</span>
+      </div>
+      <div class="metric-card">
+        <span class="m-label">READING DURATION</span>
+        <span class="m-val success" id="valReadingTime">0.0m</span>
+        <span class="m-sub">200 WPM baseline</span>
+      </div>
+      <div class="metric-card">
+        <span class="m-label">TOTAL TRANSFORMATIONS</span>
+        <span class="m-val" id="valTotalTrans">0</span>
+        <span class="m-sub">Engine conversions</span>
+      </div>
+    </section>
+
+    <!-- TOOLBAR & MODE SELECTOR -->
+    <section class="mode-bar card flex-between">
+      <div class="mode-tabs" id="modeTabs">
+        <button class="tab-btn active" data-mode="markdown">📝 Markdown + LaTeX</button>
+        <button class="tab-btn" data-mode="csv">📊 CSV / TSV Studio</button>
+        <button class="tab-btn" data-mode="yaml">⚙️ YAML &harr; JSON</button>
+        <button class="tab-btn" data-mode="diff">⚖️ LCS Document Diff</button>
+        <button class="tab-btn" data-mode="metrics">📈 Readability Metrics</button>
+      </div>
+      <div class="preset-controls">
+        <button id="btnLoadPreset" class="btn btn-sm btn-secondary">⚡ Load Sample Preset</button>
+      </div>
+    </section>
+
+    <!-- SPLIT PANE STUDIO -->
+    <div class="grid-two">
+      <!-- INPUT PANE -->
+      <div class="card pane">
+        <div class="card-header flex-between">
+          <h2 id="lblInputHeader">Input Source</h2>
+          <span class="card-sub" id="lblInputFormat">Markdown Format</span>
+        </div>
+        <textarea id="txtSourceInput" rows="18" spellcheck="false" placeholder="Enter source text here..."></textarea>
+        <div class="pane-footer flex-between">
+          <button id="btnTransform" class="btn btn-primary">⚡ Execute Transformation</button>
+          <span class="text-muted" id="lblInputStats">0 lines | 0 chars</span>
+        </div>
+      </div>
+
+      <!-- OUTPUT PANE -->
+      <div class="card pane">
+        <div class="card-header flex-between">
+          <h2 id="lblOutputHeader">Rendered Output</h2>
+          <div class="output-toggle-btns" id="outputToggleGroup">
+            <button id="btnViewRendered" class="tab-btn active btn-sm">Preview</button>
+            <button id="btnViewRaw" class="tab-btn btn-sm">Raw Code / AST</button>
+          </div>
+        </div>
+        <!-- RENDERED PREVIEW CONTAINER -->
+        <div id="previewContainer" class="output-preview">
+          <div class="placeholder-text text-muted">Awaiting transformation...</div>
+        </div>
+        <!-- RAW CODE / AST CONTAINER -->
+        <pre id="rawContainer" class="output-raw hidden"><code>// Raw output will display here</code></pre>
+        <div class="pane-footer flex-between">
+          <button id="btnCopyOutput" class="btn btn-secondary">📋 Copy Output</button>
+          <span class="text-muted" id="lblOutputStats">Ready</span>
+        </div>
       </div>
     </div>
-    <div class="status-badge">🟢 Operational Active</div>
-  </header>
-  <main class="main">
-    <div class="card">
-      <h2>Engine Overview</h2>
-      <p>CLI and web tool to transform Markdown, HTML, JSON, and LaTeX with syntax highlighting and asset bundling.</p>
-      <div class="metrics-row" id="metricsRow">
-        <div class="metric"><span class="lbl">STATUS</span><span class="val">HEALTHY</span></div>
-        <div class="metric"><span class="lbl">LATENCY</span><span class="val">1.2 ms</span></div>
-        <div class="metric"><span class="lbl">THROUGHPUT</span><span class="val">1,250 req/s</span></div>
+
+    <!-- DOCUMENT DIFF DUAL EDITOR (Only visible in diff mode) -->
+    <div id="diffContainer" class="card hidden">
+      <div class="card-header">
+        <h2>⚖️ Myers / LCS Unified Document Diff</h2>
+        <span class="card-sub">Comparative analysis identifying added, deleted, and unchanged line sequences</span>
+      </div>
+      <div class="diff-split-inputs">
+        <div class="form-group">
+          <label>Original Document (v1):</label>
+          <textarea id="txtDiffOriginal" rows="6" spellcheck="false"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Modified Document (v2):</label>
+          <textarea id="txtDiffModified" rows="6" spellcheck="false"></textarea>
+        </div>
+      </div>
+      <div class="diff-actions">
+        <button id="btnRunDiff" class="btn btn-action">🔍 Compute LCS Diff</button>
+      </div>
+      <div class="diff-view-output">
+        <pre><code id="txtUnifiedDiffOutput">Run diff to view line-by-line comparison...</code></pre>
       </div>
     </div>
-  </main>
-  <footer class="footer">
-    <p>DocuMorph-CLI &bull; Autonomously engineered by 7-Agent SDLC Factory for <a href="https://github.com/alinurettin/DocuMorph-CLI" target="_blank">Ali Nurettin Demir</a></p>
-  </footer>
+
+    <footer class="footer">
+      <p>DocuMorph-CLI v2.0.0 &bull; Universal Document AST Engine &bull; Autonomously engineered by 7-Agent SDLC Factory for <a href="https://github.com/alinurettin/DocuMorph-CLI" target="_blank">Ali Nurettin Demir</a></p>
+    </footer>
+  </div>
+
   <script src="app.js"></script>
 </body>
 </html>
