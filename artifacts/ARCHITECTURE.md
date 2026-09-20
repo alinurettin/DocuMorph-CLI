@@ -1,4 +1,4 @@
-﻿# ğŸ“ System Architecture Document: DocuMorph-CLI
+﻿# 📐 System Architecture Document: DocuMorph-CLI
 - **Project:** DocuMorph-CLI
 - **Author:** Expert Software Architect
 - **Status:** APPROVED & COMPLETE
